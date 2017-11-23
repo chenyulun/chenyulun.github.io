@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>玩转互联网技术</title>
+  
+  <subtitle>互联网、前端、后台</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https:chenyulun.github.io/"/>
+  <updated>2017-11-23T03:56:36.586Z</updated>
+  <id>https:chenyulun.github.io/</id>
+  
+  <author>
+    <name>chenyulun</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Mac OSX下给树莓派安装Raspbian系统</title>
+    <link href="https:chenyulun.github.io/2017/11/22/%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/"/>
+    <id>https:chenyulun.github.io/2017/11/22/树莓派系统安装/</id>
+    <published>2017-11-22T09:56:24.000Z</published>
+    <updated>2017-11-23T03:56:36.586Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Mac-OSX下给树莓派安装Raspbian系统"><a href="#Mac-OSX下给树莓派安装Raspbian系统" class="headerlink" title="Mac OSX下给树莓派安装Raspbian系统"></a>Mac OSX下给树莓派安装Raspbian系统</h1><p>先到<a href="http://www.raspberrypi.org/downloads" target="_blank" rel="noopener">树莓派的官方网站</a>去下载一个系统镜像<br>下载完成后得到一个img镜像：2017-09-07-raspbian-stretch.img<br>插入SD卡，用df命令查看当前已挂载的卷：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ df -h</span><br><span class="line">Filesystem      Size   Used  Avail Capacity iused               ifree %iused  Mounted on</span><br><span class="line">/dev/disk1s1   238Gi  182Gi   52Gi    78% 3875345 9223372036850900462    0%   /</span><br><span class="line">devfs          195Ki  195Ki    0Bi   100%     675                   0  100%   /dev</span><br><span class="line">/dev/disk1s4   238Gi  3.0Gi   52Gi     6%       3 9223372036854775804    0%   /private/var/vm</span><br><span class="line">map -hosts       0Bi    0Bi    0Bi   100%       0                   0  100%   /net</span><br><span class="line">map auto_home    0Bi    0Bi    0Bi   100%       0                   0  100%   /home</span><br><span class="line">/dev/disk2s1    60Gi  8.6Mi   60Gi     1%      69              488354    0%   /Volumes/未命名</span><br></pre></td></tr></table></figure></p><a id="more"></a><p>对比Size和Name可以找到SD卡的分区在系统里对应的设备文件（这里是/dev/disk2s1），如果你有多个分区，可能还会有disk1s1之类的。使用diskutil unmount将这些分区卸载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ diskutil unmount /dev/disk2s1</span><br><span class="line">Volume 未命名 on disk2s1 unmounted</span><br></pre></td></tr></table></figure></p><p>通过diskutil list来确认设备：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ diskutil list</span><br><span class="line">/dev/disk0 (internal, physical):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:      GUID_partition_scheme                        *256.1 GB   disk0</span><br><span class="line">   1:                        EFI EFI                     209.7 MB   disk0s1</span><br><span class="line">   2:                 Apple_APFS Container disk1         255.9 GB   disk0s2</span><br><span class="line"></span><br><span class="line">/dev/disk1 (synthesized):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:      APFS Container Scheme -                      +255.9 GB   disk1</span><br><span class="line">                                 Physical Store disk0s2</span><br><span class="line">   1:                APFS Volume mac os                  195.8 GB   disk1s1</span><br><span class="line">   2:                APFS Volume Preboot                 21.0 MB    disk1s2</span><br><span class="line">   3:                APFS Volume Recovery                518.1 MB   disk1s3</span><br><span class="line">   4:                APFS Volume VM                      3.2 GB     disk1s4</span><br><span class="line"></span><br><span class="line">/dev/disk2 (external, physical):</span><br><span class="line">   #:                       TYPE NAME                    SIZE       IDENTIFIER</span><br><span class="line">   0:     FDisk_partition_scheme                        *64.0 GB    disk2</span><br><span class="line">   1:               Windows_NTFS 未命名                  64.0 GB    disk2s1</span><br></pre></td></tr></table></figure></p><p>切换到镜像目录文件夹如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ cd ~/Downloads/</span><br></pre></td></tr></table></figure></p><p>使用dd命令将系统镜像写入，需要特别特别注意disk后的数字，不能搞错！<br>（说明：/dev/disk2s1是分区，/dev/disk2是块设备，/dev/rdisk2是原始字符设备）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tusmdeMacBook-Pro-2:Downloads tusm$ sudo dd bs=4m if=2017-09-07-raspbian-stretch.img of=/dev/rdisk2</span><br></pre></td></tr></table></figure></p><p>经过几分钟的等待，出现下面的提示，说明SD卡刷好了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1172+1 records in</span><br><span class="line">1172+1 records out</span><br><span class="line">4916019200 bytes transferred in 642.569513 secs (7650564 bytes/sec)</span><br></pre></td></tr></table></figure></p><p>用diskutil unmountDisk卸载设备：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tusmdeMacBook-Pro-2:Downloads tusm$ sudo diskutil unmountDisk /dev/disk2</span><br><span class="line">Unmount of all volumes on disk2 was successful</span><br></pre></td></tr></table></figure></p><p>现在就可以拔下SD卡，插到树莓派上启动系统了。第一次启动会进入Raspi-config，后面配置方法同其他平台一样，参考使用<a href="http://shumeipai.nxez.com/2013/09/07/raspi-config-configuration-raspberry-pie.html" target="_blank" rel="noopener">raspi-config配置树莓派</a>即可。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Mac-OSX下给树莓派安装Raspbian系统&quot;&gt;&lt;a href=&quot;#Mac-OSX下给树莓派安装Raspbian系统&quot; class=&quot;headerlink&quot; title=&quot;Mac OSX下给树莓派安装Raspbian系统&quot;&gt;&lt;/a&gt;Mac OSX下给树莓派安装Raspbian系统&lt;/h1&gt;&lt;p&gt;先到&lt;a href=&quot;http://www.raspberrypi.org/downloads&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;树莓派的官方网站&lt;/a&gt;去下载一个系统镜像&lt;br&gt;下载完成后得到一个img镜像：2017-09-07-raspbian-stretch.img&lt;br&gt;插入SD卡，用df命令查看当前已挂载的卷：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ df -h&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Filesystem      Size   Used  Avail Capacity iused               ifree %iused  Mounted on&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;/dev/disk1s1   238Gi  182Gi   52Gi    78% 3875345 9223372036850900462    0%   /&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;devfs          195Ki  195Ki    0Bi   100%     675                   0  100%   /dev&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;/dev/disk1s4   238Gi  3.0Gi   52Gi     6%       3 9223372036854775804    0%   /private/var/vm&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;map -hosts       0Bi    0Bi    0Bi   100%       0                   0  100%   /net&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;map auto_home    0Bi    0Bi    0Bi   100%       0                   0  100%   /home&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;/dev/disk2s1    60Gi  8.6Mi   60Gi     1%      69              488354    0%   /Volumes/未命名&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="树莓派" scheme="https:chenyulun.github.io/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+    
+    
+      <category term="树莓派" scheme="https:chenyulun.github.io/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开通博客</title>
+    <link href="https:chenyulun.github.io/2017/11/22/%E5%BC%80%E9%80%9A%E5%8D%9A%E5%AE%A2/"/>
+    <id>https:chenyulun.github.io/2017/11/22/开通博客/</id>
+    <published>2017-11-22T08:50:19.000Z</published>
+    <updated>2017-11-22T09:47:07.332Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="你好-欢迎来到我的个人技术博客"><a href="#你好-欢迎来到我的个人技术博客" class="headerlink" title="你好!欢迎来到我的个人技术博客"></a>你好!欢迎来到我的个人技术博客</h4>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;你好-欢迎来到我的个人技术博客&quot;&gt;&lt;a href=&quot;#你好-欢迎来到我的个人技术博客&quot; class=&quot;headerlink&quot; title=&quot;你好!欢迎来到我的个人技术博客&quot;&gt;&lt;/a&gt;你好!欢迎来到我的个人技术博客&lt;/h4&gt;
+      
+    
+    </summary>
+    
+      <category term="其他" scheme="https:chenyulun.github.io/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="日常闲谈" scheme="https:chenyulun.github.io/tags/%E6%97%A5%E5%B8%B8%E9%97%B2%E8%B0%88/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https:chenyulun.github.io/2017/11/22/hello-world/"/>
+    <id>https:chenyulun.github.io/2017/11/22/hello-world/</id>
+    <published>2017-11-22T08:16:23.643Z</published>
+    <updated>2017-11-22T08:16:23.643Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
