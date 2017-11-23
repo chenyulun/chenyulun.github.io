@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Mac OSX下给树莓派安装Raspbian系统]]></title>
+    <url>%2F2017%2F11%2F22%2F%E6%A0%91%E8%8E%93%E6%B4%BE%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85%2F</url>
+    <content type="text"><![CDATA[先到树莓派的官方网站去下载一个系统镜像下载完成后得到一个img镜像：2017-09-07-raspbian-stretch.img插入SD卡，用df命令查看当前已挂载的卷：12345678tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ df -hFilesystem Size Used Avail Capacity iused ifree %iused Mounted on/dev/disk1s1 238Gi 182Gi 52Gi 78% 3875345 9223372036850900462 0% /devfs 195Ki 195Ki 0Bi 100% 675 0 100% /dev/dev/disk1s4 238Gi 3.0Gi 52Gi 6% 3 9223372036854775804 0% /private/var/vmmap -hosts 0Bi 0Bi 0Bi 100% 0 0 100% /netmap auto_home 0Bi 0Bi 0Bi 100% 0 0 100% /home/dev/disk2s1 60Gi 8.6Mi 60Gi 1% 69 488354 0% /Volumes/未命名 对比Size和Name可以找到SD卡的分区在系统里对应的设备文件（这里是/dev/disk2s1），如果你有多个分区，可能还会有disk1s1之类的。使用diskutil unmount将这些分区卸载：12tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ diskutil unmount /dev/disk2s1Volume 未命名 on disk2s1 unmounted 通过diskutil list来确认设备：1234567891011121314151617181920tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ diskutil list/dev/disk0 (internal, physical): #: TYPE NAME SIZE IDENTIFIER 0: GUID_partition_scheme *256.1 GB disk0 1: EFI EFI 209.7 MB disk0s1 2: Apple_APFS Container disk1 255.9 GB disk0s2/dev/disk1 (synthesized): #: TYPE NAME SIZE IDENTIFIER 0: APFS Container Scheme - +255.9 GB disk1 Physical Store disk0s2 1: APFS Volume mac os 195.8 GB disk1s1 2: APFS Volume Preboot 21.0 MB disk1s2 3: APFS Volume Recovery 518.1 MB disk1s3 4: APFS Volume VM 3.2 GB disk1s4/dev/disk2 (external, physical): #: TYPE NAME SIZE IDENTIFIER 0: FDisk_partition_scheme *64.0 GB disk2 1: Windows_NTFS 未命名 64.0 GB disk2s1 切换到镜像目录文件夹如：1tusmdeMacBook-Pro-2:JavaVirtualMachines tusm$ cd ~/Downloads/ 使用dd命令将系统镜像写入，需要特别特别注意disk后的数字，不能搞错！（说明：/dev/disk2s1是分区，/dev/disk2是块设备，/dev/rdisk2是原始字符设备）1tusmdeMacBook-Pro-2:Downloads tusm$ sudo dd bs=4m if=2017-09-07-raspbian-stretch.img of=/dev/rdisk2 经过几分钟的等待，出现下面的提示，说明SD卡刷好了：1231172+1 records in1172+1 records out4916019200 bytes transferred in 642.569513 secs (7650564 bytes/sec) 用diskutil unmountDisk卸载设备：12tusmdeMacBook-Pro-2:Downloads tusm$ sudo diskutil unmountDisk /dev/disk2Unmount of all volumes on disk2 was successful 现在就可以拔下SD卡，插到树莓派上启动系统了。第一次启动会进入Raspi-config，后面配置方法同其他平台一样，参考使用raspi-config配置树莓派即可。]]></content>
+      <categories>
+        <category>树莓派</category>
+      </categories>
+      <tags>
+        <tag>树莓派</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[开通博客]]></title>
+    <url>%2F2017%2F11%2F22%2F%E5%BC%80%E9%80%9A%E5%8D%9A%E5%AE%A2%2F</url>
+    <content type="text"><![CDATA[你好!欢迎来到我的个人技术博客]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>日常闲谈</tag>
+      </tags>
+  </entry>
+</search>
