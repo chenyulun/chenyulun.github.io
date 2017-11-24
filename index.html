@@ -428,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  814
+                  860
                 </span>
                 <span>字</span>
               
@@ -468,25 +468,16 @@
 
       
         
-          
-            <h4 id="查看当前路由表"><a href="#查看当前路由表" class="headerlink" title="查看当前路由表"></a>查看当前路由表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -rn</span><br></pre></td></tr></table></figure>
+          <p>由于公司启用内网，又需要访问外网，就需要用户手动设置转发路由，才能愉快的同时使用内外，不需要切换网络</p>
+<h4 id="查看当前路由表"><a href="#查看当前路由表" class="headerlink" title="查看当前路由表"></a>查看当前路由表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -rn</span><br></pre></td></tr></table></figure>
 <h4 id="获取默认路由"><a href="#获取默认路由" class="headerlink" title="获取默认路由"></a>获取默认路由</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route get 0.0.0.0</span><br></pre></td></tr></table></figure>
-<h4 id="删除默认路由"><a href="#删除默认路由" class="headerlink" title="删除默认路由"></a>删除默认路由</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route -n delete default 10.2.0.1</span><br></pre></td></tr></table></figure>
-<h4 id="添加公网网关"><a href="#添加公网网关" class="headerlink" title="添加公网网关"></a>添加公网网关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route add -net 0.0.0.0 10.2.0.1</span><br></pre></td></tr></table></figure>
-<h4 id="添加内网网关"><a href="#添加内网网关" class="headerlink" title="添加内网网关"></a>添加内网网关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route add -net 194.0.0.0 194.2.100.254</span><br></pre></td></tr></table></figure>
-<p>内外网同时访问方法：<br>前提是有两张网卡，一般机器都有，一个有线，一个无线。<br>改变路由表，默认走外网网卡，指定的内网地址才走内网网卡。<br><strong>注意网卡要先链接再设置，拔掉一个其中一个失效的话需要重新设置</strong></p>
-<p>查看路由表：<br>netstat -nr</p>
-<p>查看默认路由：<br> route get 0.0.0.0</p>
-<p>先删掉不想用的内网默认路由：<br>sudo route -n delete default 172.18.2.254</p>
-<p>再重新添加需要的默认路由，一般是走公网的网关：<br>sudo route add -net 0.0.0.0 192.168.191.1</p>
-<p>4、设置HOSTS文件<br>由于OA网段是一台双网卡PC共享的，无法进行DNS，好在OA的网址不多，全部写入HOSTS文件<br>打开【Finder】-前往【前往文件夹…】–【/etc】<br>编辑HOSTS文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 注释</span><br><span class="line">10.1.x.x        xxx.xxx.xx</span><br><span class="line">10.9.x.x        xxx.xxx.xxx</span><br><span class="line">10.221.x.x    xxx.xxx.xxx</span><br><span class="line"># Mail 服务器</span><br><span class="line">172.x.x.x      mail.x.x</span><br></pre></td></tr></table></figure></p>
-<p>修改HOSTS涉及到权限，可用多种方法自行处理</p>
-<p>5、再加上内网的路由，到内网服务器地址，走内网网关：<br>sudo route -n add -net 10.1.0.0/16 192.168.0.1<br>sudo route -n add -net 10.9.0.0/16 192.168.0.1<br>sudo route -n add -net 10.221.0.0/16 192.168.0.1<br>sudo route -n add -net 172.x.x.x/32 192.168.0.1</p>
-<p>6、把上面代码写入到程序里面方便网卡重启或者机器重启之后的设置；<br>在MAC OS X自带了【Automator】工具，下面就介绍下怎样使用【Automator】实现重启自动添加路由<br>打开【launchpad】-【其他】-【Automator】<br>选取文稿类型：应用程序<br>左边点选【资源库】-【实用工具】<br>列表中选取【运行AppleScript】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">右边的脚本框中如下编辑脚本：</span><br><span class="line">on run &#123;input, parameters&#125;</span><br><span class="line"></span><br><span class="line">    do shell script &amp;quot;route -n add -net 10.1.0.0/16 192.168.0.1&amp;quot; user name &amp;quot;你登陆系统的用户名&amp;quot; password &amp;quot;你登陆系统的密码&amp;quot; with administrator privileges</span><br><span class="line">    do shell script &amp;quot;route -n add -net 10.9.0.0/16 192.168.0.1&amp;quot; user name &amp;quot;你登陆系统的用户名&amp;quot; password &amp;quot;你登陆系统的密码&amp;quot; with administrator privileges</span><br><span class="line">    do shell script &amp;quot;route -n add -net 10.221.0.0/16 192.168.0.1&amp;quot; user name&amp;quot;你登陆系统的用户名&amp;quot; password &amp;quot;你登陆系统的密码&amp;quot; with administrator privileges</span><br><span class="line">    do shell script &amp;quot;route -n add -net 172.x.x.x/32 192.168.0.1&amp;quot; user name &amp;quot;你登陆系统的用户名&amp;quot; password &amp;quot;你登陆系统的密码&amp;quot; with administrator privileges</span><br><span class="line"></span><br><span class="line">    return input</span><br><span class="line">end run</span><br></pre></td></tr></table></figure></p>
-<p>然后保存为OA_Route.app</p>
-<p>最后，打开【系统偏好设置】-【用户与群组】-选【登录项】，将刚才保存的OA_Route.app拖到列表中，并勾选隐藏<br>详细设置参考地址: <a href="http://bbs.feng.com/read-htm-tid-5138570.html" target="_blank" rel="noopener">http://bbs.feng.com/read-htm-tid-5138570.html</a><br>linux route命令的使用详解: <a href="https://www.cnblogs.com/snake-hand/p/3143041.html" target="_blank" rel="noopener">https://www.cnblogs.com/snake-hand/p/3143041.html</a></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center post-button-more">
+            <a class="btn" href="/2017/11/24/mac-route/#more" rel="contents">
+              阅读全文
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

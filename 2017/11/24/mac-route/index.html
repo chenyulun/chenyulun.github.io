@@ -90,18 +90,18 @@
 
 
 
-<meta name="description" content="查看当前路由表1netstat -rn 获取默认路由1route get 0.0.0.0 删除默认路由1sudo route -n delete default 10.2.0.1 添加公网网关1sudo route add -net 0.0.0.0 10.2.0.1 添加内网网关1sudo route add -net">
+<meta name="description" content="由于公司启用内网，又需要访问外网，就需要用户手动设置转发路由，才能愉快的同时使用内外，不需要切换网络 查看当前路由表1netstat -rn 获取默认路由1route get 0.0.0.0">
 <meta name="keywords" content="mac,网络,route命令">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mac添加路由方法">
 <meta property="og:url" content="https:chenyulun.github.io/2017/11/24/mac-route/index.html">
 <meta property="og:site_name" content="玩转互联网技术">
-<meta property="og:description" content="查看当前路由表1netstat -rn 获取默认路由1route get 0.0.0.0 删除默认路由1sudo route -n delete default 10.2.0.1 添加公网网关1sudo route add -net 0.0.0.0 10.2.0.1 添加内网网关1sudo route add -net 194.0.0.0 194.2.100.254 内外网同时访问方法：前提是有两">
+<meta property="og:description" content="由于公司启用内网，又需要访问外网，就需要用户手动设置转发路由，才能愉快的同时使用内外，不需要切换网络 查看当前路由表1netstat -rn 获取默认路由1route get 0.0.0.0">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-24T02:23:10.993Z">
+<meta property="og:updated_time" content="2017-11-24T03:37:48.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac添加路由方法">
-<meta name="twitter:description" content="查看当前路由表1netstat -rn 获取默认路由1route get 0.0.0.0 删除默认路由1sudo route -n delete default 10.2.0.1 添加公网网关1sudo route add -net 0.0.0.0 10.2.0.1 添加内网网关1sudo route add -net 194.0.0.0 194.2.100.254 内外网同时访问方法：前提是有两">
+<meta name="twitter:description" content="由于公司启用内网，又需要访问外网，就需要用户手动设置转发路由，才能愉快的同时使用内外，不需要切换网络 查看当前路由表1netstat -rn 获取默认路由1route get 0.0.0.0">
 
 
 
@@ -427,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  814
+                  860
                 </span>
                 <span>字</span>
               
@@ -466,8 +466,10 @@
       
 
       
-        <h4 id="查看当前路由表"><a href="#查看当前路由表" class="headerlink" title="查看当前路由表"></a>查看当前路由表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -rn</span><br></pre></td></tr></table></figure>
+        <p>由于公司启用内网，又需要访问外网，就需要用户手动设置转发路由，才能愉快的同时使用内外，不需要切换网络</p>
+<h4 id="查看当前路由表"><a href="#查看当前路由表" class="headerlink" title="查看当前路由表"></a>查看当前路由表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -rn</span><br></pre></td></tr></table></figure>
 <h4 id="获取默认路由"><a href="#获取默认路由" class="headerlink" title="获取默认路由"></a>获取默认路由</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">route get 0.0.0.0</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <h4 id="删除默认路由"><a href="#删除默认路由" class="headerlink" title="删除默认路由"></a>删除默认路由</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route -n delete default 10.2.0.1</span><br></pre></td></tr></table></figure>
 <h4 id="添加公网网关"><a href="#添加公网网关" class="headerlink" title="添加公网网关"></a>添加公网网关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route add -net 0.0.0.0 10.2.0.1</span><br></pre></td></tr></table></figure>
 <h4 id="添加内网网关"><a href="#添加内网网关" class="headerlink" title="添加内网网关"></a>添加内网网关</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo route add -net 194.0.0.0 194.2.100.254</span><br></pre></td></tr></table></figure>
@@ -505,7 +507,7 @@
   <p><span>本文标题:</span><a href="/2017/11/24/mac-route/">mac添加路由方法</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 chenyulun 的个人博客">chenyulun</a></p>
   <p><span>发布时间:</span>2017年11月24日 - 09:11</p>
-  <p><span>最后更新:</span>2017年11月24日 - 10:11</p>
+  <p><span>最后更新:</span>2017年11月24日 - 11:11</p>
   <p><span>原始链接:</span><a href="/2017/11/24/mac-route/" title="mac添加路由方法">https:chenyulun.github.io/2017/11/24/mac-route/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https:chenyulun.github.io/2017/11/24/mac-route/"  aria-label="复制成功！"></i></span>
   </p>
